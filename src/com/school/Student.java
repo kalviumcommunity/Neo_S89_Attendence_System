@@ -1,25 +1,49 @@
+// package com.school;
+
+// public class Student extends Person{
+//     // private int studentId;
+//     // private String name;
+
+//     // public Student(int studentId, String name) {
+//     //     this.studentId = studentId;
+//     //     this.name = name;
+//     // }
+
+//     // // Getters
+//     // public int getStudentId() {
+//     //     return studentId;
+//     // }
+
+//     // public String getName() {
+//     //     return name;
+//     // }
+// private String gradeLevel;
+
+// public Student(String name, String gradeLevel){
+    
+// }
+
+// }
+
+
 package com.school;
 
-public class Student {
-    private static int nextStudentIdCounter = 1;
-    private int studentId;
-    private String name;
+public class Student extends Person {
+    private String gradeLevel;
 
-    public Student(String name) {
-        this.studentId = nextStudentIdCounter++;
-        this.name = name;
+    public Student(String name, String gradeLevel) {
+        super(name); // Person assigns auto ID
+        this.gradeLevel = gradeLevel;
     }
 
-    // Getters
-    public int getStudentId() {
-        return studentId;
+    public String getGradeLevel() {
+        return gradeLevel;
     }
 
-    public String getName() {
-        return name;
-    }
-
+    @Override
     public void displayDetails() {
-        System.out.println("Student ID: " + studentId + ", Name: " + name);
+        super.displayDetails();
+        System.out.println("Role: Student, Grade Level: " + gradeLevel);
     }
 }
+
