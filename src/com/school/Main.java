@@ -26,33 +26,34 @@ public class Main {
         Student student2 = new Student("Sai", "9th Grade");
         Teacher teacher = new Teacher("Mr. John", "Mathematics");
         Staff staff = new Staff("Mary", "Clerk");
-
-        // Display details
-        System.out.println("\n--- Person Details ---");
-        student1.displayDetails();
-        System.out.println();
-        student2.displayDetails();
-        System.out.println();
-        teacher.displayDetails();
-        System.out.println();
-        staff.displayDetails();
+        
+        // --- Polymorphism Demo ---
+        // Create a list of Persons and add different types of objects
+        List<Person> people = new ArrayList<>();
+        people.add(student1);
+        people.add(student2);
+        people.add(teacher);
+        people.add(staff);
+        
+        // Display details using polymorphism
+        System.out.println("\n--- Person Details (Demonstrating Polymorphism) ---");
+        for (Person person : people) {
+            person.displayDetails(); // Calls the overridden method for each object type
+            System.out.println();
+        }
 
         // Create courses
-        Course course1 = new Course(101, "Java");
-        Course course2 = new Course(102, "Python");
+        Course course1 = new Course("Java");
+        Course course2 = new Course("Python");
 
         // Attendance log
         List<AttendanceRecord> attendanceLog = new ArrayList<>();
 
-        // Use student.getId() for attendance
-        AttendanceRecord record1 = new AttendanceRecord(student1.getId(), course1.getCourseId(), "Present");
-        AttendanceRecord record2 = new AttendanceRecord(student2.getId(), course2.getCourseId(), "Absent");
-        AttendanceRecord record3 = new AttendanceRecord(student1.getId(), course2.getCourseId(), "Holiday"); // invalid
+        // Create attendance records using object references
+        attendanceLog.add(new AttendanceRecord(student1, course1, "Present"));
+        attendanceLog.add(new AttendanceRecord(student2, course2, "Absent"));
+        attendanceLog.add(new AttendanceRecord(student1, course2, "Holiday")); // invalid status
 
-        // Add to list
-        attendanceLog.add(record1);
-        attendanceLog.add(record2);
-        attendanceLog.add(record3);
 
         // Display attendance records
         System.out.println("\n--- Attendance Records ---");
