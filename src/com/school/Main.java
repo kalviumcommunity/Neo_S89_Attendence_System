@@ -15,11 +15,16 @@
 package com.school;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("---- School Management System ----");
+
+        // --- Setup Services ---
+        FileStorageService storageService = new FileStorageService();
+        AttendanceService attendanceService = new AttendanceService(storageService);
 
         // Create objects
         Student student1 = new Student("Hemanth", "10th Grade");
@@ -45,21 +50,33 @@ public class Main {
         // Create courses
         Course course1 = new Course("Java");
         Course course2 = new Course("Python");
+        List<Course> allCourses = Arrays.asList(course1, course2);
 
-        // Attendance log
-        List<AttendanceRecord> attendanceLog = new ArrayList<>();
-
-        // Create attendance records using object references
-        attendanceLog.add(new AttendanceRecord(student1, course1, "Present"));
-        attendanceLog.add(new AttendanceRecord(student2, course2, "Absent"));
-        attendanceLog.add(new AttendanceRecord(student1, course2, "Holiday")); // invalid status
-
-
-        // Display attendance records
-        System.out.println("\n--- Attendance Records ---");
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
+        // Create a list of only students for attendance marking by ID
+        List<Student> allStudents = new ArrayList<>();
+        for (Person person : people) {
+            if (person instanceof Student) {
+                allStudents.add((Student) person);
+            }
         }
+
+        // --- Mark Attendance using the Service (Overloaded Methods) ---
+        System.out.println("\n--- Marking Attendance ---");
+        // Method 1: Using object references
+        attendanceService.markAttendance(student1, course1, "Present");
+        // Method 2: Using IDs
+        attendanceService.markAttendance(student2.getId(), course2.getCourseId(), "Absent", allStudents, allCourses);
+        attendanceService.markAttendance(student1.getId(), course2.getCourseId(), "Present", allStudents, allCourses);
+        // Example of invalid ID
+        attendanceService.markAttendance(999, course1.getCourseId(), "Present", allStudents, allCourses);
+
+        // --- Display Attendance Reports (Overloaded Methods) ---
+        attendanceService.displayAttendanceLog(); // Display all
+        attendanceService.displayAttendanceLog(student1); // Display for Hemanth
+        attendanceService.displayAttendanceLog(course2); // Display for Python
+
+        // --- Save Data ---
+        attendanceService.saveAttendanceData();
     }
 }
 
